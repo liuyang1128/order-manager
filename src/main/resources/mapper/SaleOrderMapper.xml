@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.SaleOrderMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.SaleOrder">
+<mapper namespace="com.orders.dao.SaleOrderMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.SaleOrder">
         <!--
           WARNING - @mbg.generated
         -->
@@ -29,7 +29,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="CustomerDebtMap" type="com.ok.okhelper.pojo.bo.CustomerDebtBo">
+    <resultMap id="CustomerDebtMap" type="com.orders.pojo.bo.CustomerDebtBo">
         <constructor>
             <arg column="so_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="order_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -46,28 +46,28 @@
         </constructor>
     </resultMap>
 
-    <!--<resultMap id="CustomerDebtGroupMap" type="com.ok.okhelper.pojo.bo.CustomerDebtGroupBo">-->
+    <!--<resultMap id="CustomerDebtGroupMap" type="CustomerDebtGroupBo">-->
     <!--<constructor>-->
     <!--<arg column="customer_id" javaType="java.lang.Long" jdbcType="BIGINT"/>-->
     <!--<arg column="sum_to_be_paid" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>-->
     <!--</constructor>-->
     <!--</resultMap>-->
 
-    <resultMap id="SaleTotalMap" type="com.ok.okhelper.pojo.vo.SaleTotalVo">
+    <resultMap id="SaleTotalMap" type="com.orders.pojo.vo.SaleTotalVo">
         <constructor>
             <arg column="sale_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="total_sales" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
         </constructor>
     </resultMap>
 
-    <resultMap id="ProductCountMap" type="com.ok.okhelper.pojo.vo.ProductCountMapVo">
+    <resultMap id="ProductCountMap" type="com.orders.pojo.vo.ProductCountMapVo">
         <constructor>
             <arg column="product_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="sale_product_num" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
 
-    <resultMap id="SaleOrderMap" type="com.ok.okhelper.pojo.vo.SaleOrderVo">
+    <resultMap id="SaleOrderMap" type="com.orders.pojo.vo.SaleOrderVo">
         <id column="so_id" property="id"/>
         <result column="order_number" property="orderNumber"/>
         <result column="customer_id" property="customerId"/>
@@ -91,7 +91,7 @@
         <result column="close_time" property="closeTime"/>
         <result column="remarks" property="remarks"/>
         <result column="so_store_id" property="storeId"/>
-        <collection property="saleOrderItemVos" ofType="com.ok.okhelper.pojo.vo.SaleOrderItemVo">
+        <collection property="saleOrderItemVos" ofType="com.orders.pojo.vo.SaleOrderItemVo">
             <result column="product_id" property="productId"/>
             <result column="product_name" property="productName"/>
             <result column="product_title" property="productTitle"/>

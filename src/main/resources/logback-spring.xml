@@ -25,7 +25,7 @@
             <appender-ref ref="consoleLog"/>
         </root>
 
-        <logger name="com.ok.okhelper">
+        <logger name="com.orders">
             <level value="DEBUG"/>
         </logger>
 

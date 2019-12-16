@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.StorageOrderMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.StorageOrder">
+<mapper namespace="com.orders.dao.StorageOrderMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.StorageOrder">
         <!--
           WARNING - @mbg.generated
         -->
@@ -19,7 +19,7 @@
     </resultMap>
 
 
-    <!--<resultMap id="StorageOrderVoResultMap" type="com.ok.okhelper.pojo.vo.StorageOrderVo">-->
+    <!--<resultMap id="StorageOrderVoResultMap" type="StorageOrderVo">-->
         <!--&lt;!&ndash;-->
           <!--WARNING - @mbg.generated-->
         <!--&ndash;&gt;-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.WarehouseMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Warehouse">
+<mapper namespace="com.orders.dao.WarehouseMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.Warehouse">
         <!--
           WARNING - @mbg.generated
         -->
@@ -18,7 +18,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="WarehouseVoMap" type="com.ok.okhelper.pojo.vo.WarehouseVo">
+    <resultMap id="WarehouseVoMap" type="com.orders.pojo.vo.WarehouseVo">
         <!--
           WARNING - @mbg.generated
         -->
@@ -34,7 +34,7 @@
     </resultMap>
 
 
-    <resultMap id="IdAndNameMap" type="com.ok.okhelper.pojo.bo.IdAndNameBo">
+    <resultMap id="IdAndNameMap" type="com.orders.pojo.bo.IdAndNameBo">
         <constructor>
             <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="warehouse_name" javaType="java.lang.String" jdbcType="VARCHAR"/>

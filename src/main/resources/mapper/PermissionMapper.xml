@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.PermissionMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Permission">
+<mapper namespace="com.orders.dao.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.Permission">
         <!--
           WARNING - @mbg.generated
         -->
@@ -18,7 +18,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="PermissionMenuMap" type="com.ok.okhelper.pojo.vo.PermissionMenuVo">
+    <resultMap id="PermissionMenuMap" type="com.orders.pojo.vo.PermissionMenuVo">
         <result column="menu_code" property="menuCode"></result>
         <result column="menu_name" property="menuName"></result>
     </resultMap>

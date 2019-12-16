@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.ProductMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Product">
+<mapper namespace="com.orders.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.Product">
         <!--
           WARNING - @mbg.generated
         -->
@@ -27,7 +27,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="ProductVoMap" type="com.ok.okhelper.pojo.vo.ProductsVo">
+    <resultMap id="ProductVoMap" type="com.orders.pojo.vo.ProductsVo">
         <!--
           查询所有商品
         -->
@@ -43,7 +43,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="IdAndNameMap" type="com.ok.okhelper.pojo.bo.IdAndNameBo">
+    <resultMap id="IdAndNameMap" type="com.orders.pojo.bo.IdAndNameBo">
         <constructor>
             <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -51,7 +51,7 @@
     </resultMap>
 
 
-    <resultMap id="ProductStockVoMap" type="com.ok.okhelper.pojo.vo.ProductStockVo">
+    <resultMap id="ProductStockVoMap" type="com.orders.pojo.vo.ProductStockVo">
         <!--
           查询单个商品库存
         -->

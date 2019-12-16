@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.StorageOrderDetailMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.StorageOrderDetail">
+<mapper namespace="com.orders.dao.StorageOrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.StorageOrderDetail">
         <!--
           WARNING - @mbg.generated
         -->
@@ -30,7 +30,7 @@
     
     
 
-    <!--<resultMap id="StorageDetailDtoResultMap" type="com.ok.okhelper.pojo.po.StorageOrderDetail">-->
+    <!--<resultMap id="StorageDetailDtoResultMap" type="StorageOrderDetail">-->
         <!--&lt;!&ndash;-->
           <!--WARNING - @mbg.generated-->
         <!--&ndash;&gt;-->
@@ -49,7 +49,7 @@
       <!--storage_order_detail-->
     <!--</sql>-->
 
-    <!--<insert id="insertStorageDetail" parameterType="com.ok.okhelper.pojo.dto.StorageDetailDto">-->
+    <!--<insert id="insertStorageDetail" parameterType="StorageDetailDto">-->
         <!--INSERT INTO-->
         <!--<include refid="tableName"/>-->
         <!--(storage_in_id,warehouse_id,product_id,storage_count,storage_price,product_date,shelf_life,-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ok.okhelper.dao.StockMapper">
-    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Stock">
+<mapper namespace="com.orders.dao.StockMapper">
+    <resultMap id="BaseResultMap" type="com.orders.pojo.po.Stock">
         <!--
           WARNING - @mbg.generated
         -->
@@ -19,7 +19,7 @@
             <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         </constructor>
     </resultMap>
-    <resultMap id="StockBoResultMap" type="com.ok.okhelper.pojo.bo.StockBo">
+    <resultMap id="StockBoResultMap" type="com.orders.pojo.bo.StockBo">
         <!--
           WARNING - @mbg.generated
         -->
@@ -36,7 +36,7 @@
 
 
 
-    <resultMap id="ProductStockBoResultMap" type="com.ok.okhelper.pojo.bo.ProductStockBo">
+    <resultMap id="ProductStockBoResultMap" type="com.orders.pojo.bo.ProductStockBo">
         <!--
           WARNING - 商品对应库存
         -->
