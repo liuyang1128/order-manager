@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.WarehouseMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Warehouse">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="warehouse_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="store_keeper" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="WarehouseVoMap" type="com.ok.okhelper.pojo.vo.WarehouseVo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="warehouse_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="store_keeper" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+
+    <resultMap id="IdAndNameMap" type="com.ok.okhelper.pojo.bo.IdAndNameBo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="warehouse_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <select id="getIdAndName" parameterType="java.lang.Long" resultMap="IdAndNameMap">
+        select id,warehouse_name from warehouse WHERE id = #{id};
+    </select>
+
+    <select id="getWarehouseNameList"  resultMap="IdAndNameMap">
+        select id,warehouse_name from warehouse where delete_status = 1 and store_id = #{storeId};
+    </select>
+
+
+    <select id="getWarehouseByStoreId" parameterType="long" resultMap="WarehouseVoMap"  >
+      SELECT id,warehouse_name,description,store_keeper,operator,create_time,delete_status
+      FROM  warehouse WHERE store_id = #{storeId}
+    </select>
+
+    <!--<select id="getUserWarehouse" parameterType="long" resultMap=""-->
+
+
+</mapper>

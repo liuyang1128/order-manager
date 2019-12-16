@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.StockMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Stock">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="warehouse_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_date" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="shelf_life" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="stock_count" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="StockBoResultMap" type="com.ok.okhelper.pojo.bo.StockBo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="warehouse_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_date" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="shelf_life" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="stock_count" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="overDay" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+
+
+    <resultMap id="ProductStockBoResultMap" type="com.ok.okhelper.pojo.bo.ProductStockBo">
+        <!--
+          WARNING - 商品对应库存
+        -->
+        <constructor>
+            <arg column="product_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="total_stock" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+
+
+
+    <select id="getNearDaysProduct" parameterType="map" resultMap="StockBoResultMap">
+        <![CDATA[
+
+
+       SELECT id,warehouse_id,product_id,product_date,shelf_life,stock_count ,shelf_life - (datediff(NOW(), product_date)) as overday
+        FROM stock WHERE shelf_life - (datediff(NOW(), product_date)) <=  #{days} and store_id = #{storeId}
+
+
+        ]]>
+    </select>
+    <select id="getLowCountProductsList" resultMap="ProductStockBoResultMap">
+        <![CDATA[
+
+
+          select product_id,sum(stock_count) as total_stock from stock where  store_id = #{storeId} group by product_id
+          having  total_stock <= #{numbers}
+
+        ]]>
+    </select>
+    <select id="getStockBoByPid" resultMap="StockBoResultMap">
+        SELECT id,warehouse_id,product_id,product_date,shelf_life,stock_count ,shelf_life - (datediff(NOW(), product_date)) as overday
+        FROM stock WHERE product_id = #{pid}
+
+    </select>
+
+</mapper>

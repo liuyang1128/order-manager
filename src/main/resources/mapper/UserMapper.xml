@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="pass_problem" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="pass_answer" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_nick" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_avatar" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_sex" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="user_phone" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="user_birthday" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="last_login_ip" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="UserBoMap" type="com.ok.okhelper.pojo.bo.UserBo">
+
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_nick" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_avatar" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="user_sex" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="user_phone" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="IdAndNameMap" type="com.ok.okhelper.pojo.bo.IdAndNameBo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <select id="getIdAndName" parameterType="java.lang.Long" resultMap="IdAndNameMap">
+        select id,user_name from user WHERE id = #{id} ;
+    </select>
+
+
+
+    <select id="findUserIdByName" parameterType="java.lang.String" resultType="java.lang.Long">
+        select user.id
+        from user
+        WHERE user.user_name = #{userName}
+    </select>
+    <select id="findUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from user
+        WHERE user.user_name = #{userName}
+    </select>
+
+
+    <select id="findStoreIdByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select store_id
+        from user
+        WHERE user.id = #{userId}
+    </select>
+
+
+    <select id="checkUserName" parameterType="java.lang.String" resultType="java.lang.String">
+        select user_name
+        from user
+        where user_name = #{userName}
+    </select>
+
+    <!--&lt;insert id="register"  parameterType="com.ok.okhelper.pojo.dto.UserDto" &gt;-->
+    <!--INSERT INTO user(user_name,user_password) va-->
+    <!--&lt;/insert&gt;-->
+    <select id="getUserListByStoreId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT id
+        FROM user
+        where store_id = #{storeId}
+    </select>
+
+    <select id="getPassWordByUserId" parameterType="long" resultType="java.lang.String">
+        select user_password
+        from user
+        where id = #{user_id}
+    </select>
+
+    <delete id="deleteAllRoleFromUser">
+        delete from user_role
+        where user_role.user_id = #{user_id}
+    </delete>
+
+    <insert id="insertRoleToUser">
+        insert into user_role (user_id, role_id, operator) values (#{user_id}, #{role_id}, #{operator})
+    </insert>
+    
+    
+    
+    <select id="getEmployeeList" parameterType="map" resultMap="UserBoMap" >
+      SELECT id,user_name,user_nick,user_avatar,user_sex,user_phone,delete_status from user WHERE store_id = #{storeId}
+      and delete_status = #{deleteStatus}
+    </select>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Product">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="product_title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="product_attribute" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="category_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="sales_stock" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="specification" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="unit" javaType="java.lang.String" jdbcType="CHAR"/>
+            <arg column="retail_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="main_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sub_imgs" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="article_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bar_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="ProductVoMap" type="com.ok.okhelper.pojo.vo.ProductsVo">
+        <!--
+          查询所有商品
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="product_title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sales_stock" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="retail_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="main_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="IdAndNameMap" type="com.ok.okhelper.pojo.bo.IdAndNameBo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+
+    <resultMap id="ProductStockVoMap" type="com.ok.okhelper.pojo.vo.ProductStockVo">
+        <!--
+          查询单个商品库存
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="product_title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="main_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <select id="getIdAndName" parameterType="java.lang.Long" resultMap="IdAndNameMap">
+        select
+            id,
+            product_name
+        from product
+        WHERE id = #{id};
+    </select>
+
+
+    <update id="addSalesStock" parameterType="map">
+        update product
+        set sales_stock = sales_stock + #{salesCount}
+        where id = #{productId}
+    </update>
+
+    <update id="cutSalesStock" parameterType="map">
+        update product
+        set sales_stock = sales_stock - #{salesCount}
+        where sales_stock >= #{salesCount} AND id = #{productId} AND delete_status = 1
+    </update>
+
+    <select id="getProductsList" resultMap="ProductVoMap">
+        SELECT id,product_name,product_title,sales_stock,retail_price,main_img,create_time,update_time
+        FROM product
+        <where>
+            AND delete_status = 1 AND store_id = ${storeId}
+            <if test=" condition != null and condition != ''">
+                AND (product_name LIKE '%${condition}%'
+                OR article_number = #{condition}
+                OR bar_code = #{condition}
+                )
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE product
+        SET delete_status = 0
+        WHERE id = #{pId} and store_id = #{storeId}
+    </update>
+
+    <select id="getProductsListByCategoryId" resultMap="ProductVoMap" parameterType="map">
+        SELECT id,product_name,product_title,sales_stock,retail_price,main_img,create_time,update_time
+        FROM product WHERE category_id in
+        <foreach collection="categoryListTotal" item="c" index="index"
+                 open="(" close=")" separator=",">
+            #{c.id}
+        </foreach>
+        AND store_id=#{storeId}
+        AND delete_status = 1
+
+    </select>
+
+    <select id="getSaleStockLock" resultType="java.lang.Integer">
+        select sales_stock
+        from product
+        where id = #{productId} for update
+    </select>
+
+    <select id="getProductsListBybarCode" resultMap="ProductVoMap" parameterType="map">
+        SELECT
+            id,
+            product_name,
+            product_title,
+            sales_stock,
+            retail_price,
+            main_img,
+            create_time,
+            update_time
+        FROM product
+        where delete_status = 1 AND store_id = ${storeId} AND bar_code = #{barCode}
+    </select>
+
+    <select id="getLowCountProductsList" resultMap="ProductVoMap">
+        <![CDATA[
+        SELECT
+            id,
+            product_name,
+            product_title,
+            sales_stock,
+            retail_price,
+            main_img,
+            create_time,
+            update_time
+        FROM product
+        where delete_status = 1 AND store_id = #{storeId} AND sales_stock <= #{numbers}
+        ]]>
+    </select>
+
+
+    <select id="getProductStockVoByPK" resultMap="ProductStockVoMap" parameterType="java.lang.Long">
+        select
+            id,
+            product_name,
+            product_title,
+            main_img
+        from product
+        where delete_status = 1 and id = #{productId}
+    </select>
+
+
+</mapper>

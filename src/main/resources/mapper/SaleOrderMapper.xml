@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.SaleOrderMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.SaleOrder">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="order_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="customer_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="seller" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="stockouter" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="sum_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="real_pay" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="discount_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="to_be_paid" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="pay_type" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="order_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="logistics_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="pay_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="send_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="success_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="close_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="store_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="CustomerDebtMap" type="com.ok.okhelper.pojo.bo.CustomerDebtBo">
+        <constructor>
+            <arg column="so_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="order_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="to_be_paid" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="place_order_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="customer_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="customer_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="customer_store_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="customer_phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="customer_email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="customer_score" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="customer_level" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="customer_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <!--<resultMap id="CustomerDebtGroupMap" type="com.ok.okhelper.pojo.bo.CustomerDebtGroupBo">-->
+    <!--<constructor>-->
+    <!--<arg column="customer_id" javaType="java.lang.Long" jdbcType="BIGINT"/>-->
+    <!--<arg column="sum_to_be_paid" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>-->
+    <!--</constructor>-->
+    <!--</resultMap>-->
+
+    <resultMap id="SaleTotalMap" type="com.ok.okhelper.pojo.vo.SaleTotalVo">
+        <constructor>
+            <arg column="sale_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="total_sales" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="ProductCountMap" type="com.ok.okhelper.pojo.vo.ProductCountMapVo">
+        <constructor>
+            <arg column="product_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="sale_product_num" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="SaleOrderMap" type="com.ok.okhelper.pojo.vo.SaleOrderVo">
+        <id column="so_id" property="id"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_store_name" property="customerStoreName"/>
+        <result column="customer_score" property="customerScore"/>
+        <result column="customer_level" property="customerLevel"/>
+        <result column="seller" property="seller"/>
+        <result column="stockouter" property="stockouter"/>
+        <result column="sum_price" property="sumPrice"/>
+        <result column="real_Pay" property="realPay"/>
+        <result column="discount_price" property="discountPrice"/>
+        <result column="to_be_paid" property="toBePaid"/>
+        <result column="pay_type" property="payType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="logistics_status" property="logisticsStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="success_time" property="successTime"/>
+        <result column="close_time" property="closeTime"/>
+        <result column="remarks" property="remarks"/>
+        <result column="so_store_id" property="storeId"/>
+        <collection property="saleOrderItemVos" ofType="com.ok.okhelper.pojo.vo.SaleOrderItemVo">
+            <result column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_title" property="productTitle"/>
+            <result column="main_img" property="mainImg"/>
+            <result column="sale_count" property="saleCount"/>
+            <result column="sale_price" property="salePrice"/>
+        </collection>
+    </resultMap>
+
+    <select id="getCustomerDebtBo" resultMap="CustomerDebtMap" parameterType="map">
+        SELECT
+        sale_order.id so_id,
+        order_number,
+        to_be_paid,
+        sale_order.create_time place_order_time,
+        customer_id,
+        customer_name,
+        customer_store_name,
+        customer_phone,
+        customer_email,
+        customer_score,
+        customer_level,
+        customer_address
+        FROM sale_order
+        LEFT JOIN customer on sale_order.customer_id = customer.id
+        WHERE sale_order.store_id = #{storeId}
+        AND sale_order.order_status = 2
+        AND customer.delete_status = 1
+        <if test="condition != null and condition != ''">
+            AND (customer.customer_name=#{condition} OR customer.customer_phone=#{condition})
+        </if>
+    </select>
+
+    <!--废弃-->
+    <!--<select id="getCustomerDebtGroupBo" resultMap="CustomerDebtGroupMap" parameterType="map">-->
+    <!--SELECT sale_order.customer_id customer_id,SUM(sale_order.to_be_paid) sum_to_be_paid-->
+    <!--FROM sale_order,customer-->
+    <!--WHERE sale_order.customer_id=customer.id-->
+    <!--AND sale_order.store_id=#{storeId}-->
+    <!--AND sale_order.order_status=2-->
+    <!--AND customer.delete_status=1-->
+    <!--<if test="condition != null and condition != ''">-->
+    <!--AND (customer.customer_name=#{condition} OR customer.customer_phone=#{condition})-->
+    <!--</if>-->
+    <!--GROUP BY sale_order.customer_id-->
+    <!--</select>-->
+
+    <select id="getSaleTotal" resultMap="SaleTotalMap" parameterType="map">
+        SELECT
+            COUNT(sum_price) sale_count,
+            SUM(sum_price)   total_sales
+        FROM sale_order
+        WHERE create_time BETWEEN #{startDate} AND #{endDate}
+              AND store_id = #{storeId}
+              AND order_status != 5
+    </select>
+
+    <select id="getSaleTotalProductCount" resultMap="ProductCountMap" parameterType="map">
+        select product_id,count(product_id) sale_product_num
+        from sale_order_detail
+        WHERE sale_order_id in
+              (SELECT id
+               FROM sale_order
+               WHERE create_time BETWEEN #{startDate} AND #{endDate}
+                     AND store_id = #{storeId}
+                     AND order_status != 5)
+        GROUP BY product_id
+    </select>
+
+    <select id="getSaleOrderVo" resultMap="SaleOrderMap" parameterType="map">
+        select
+        sale_order.id so_id,
+        sale_order.order_number,
+        sale_order.customer_id,
+        customer.customer_name,
+        customer.customer_store_name,
+        customer.customer_score,
+        customer.customer_level,
+        sale_order.seller,
+        sale_order.sum_price,
+        sale_order.real_pay,
+        sale_order.discount_price,
+        sale_order.to_be_paid,
+        sale_order.pay_type,
+        sale_order.order_status,
+        sale_order.logistics_status,
+        sale_order.create_time,
+        sale_order.pay_time,
+        sale_order.send_time,
+        sale_order.success_time,
+        sale_order.close_time,
+        sale_order.remarks,
+        sale_order.store_id so_store_id,
+        sale_order_detail.*
+        from sale_order
+        LEFT JOIN sale_order_detail on sale_order.id = sale_order_detail.sale_order_id
+        LEFT JOIN customer on sale_order.customer_id = customer.id
+        where sale_order.create_time BETWEEN #{saleOrderDto.startDate} AND #{saleOrderDto.endDate}
+        AND sale_order.store_id = #{storeId}
+        <if test="saleOrderDto.customerId != null and saleOrderDto.customerId != ''">
+            AND customer.id=#{saleOrderDto.customerId}
+        </if>
+        <if test="saleOrderDto.customerName != null and saleOrderDto.customerName != ''">
+            AND customer.customer_name=#{saleOrderDto.customerName}
+        </if>
+        <if test="saleOrderDto.customerLevel != null">
+            AND customer.customer_level=#{saleOrderDto.customerLevel}
+        </if>
+        <if test="saleOrderDto.seller != null">
+            AND sale_order.seller=#{saleOrderDto.seller}
+        </if>
+        <if test="saleOrderDto.stockouter != null">
+            AND sale_order.stockouter=#{saleOrderDto.stockouter}
+        </if>
+        <if test="saleOrderDto.orderStatus != null">
+            AND sale_order.order_status=#{saleOrderDto.orderStatus}
+        </if>
+        <if test="saleOrderDto.logisticsStatus != null">
+            AND sale_order.logistics_status=#{saleOrderDto.logisticsStatus}
+        </if>
+        <if test="saleOrderDto.id != null">
+            AND sale_order.id = #{saleOrderDto.id}
+        </if>
+        <!--<if test="saleOrderDto.payType != null and saleOrderDto.payType != ''">-->
+            <!--AND sale_order.pay_type like '%${saleOrderDto.payType}%'-->
+        <!--</if>-->
+    </select>
+
+    <select id="getUnSendOrder" resultMap="BaseResultMap" parameterType="long">
+        select * from sale_order where order_status in (2,3) AND logistics_status=1 AND store_id=#{storeId}
+    </select>
+
+
+</mapper>

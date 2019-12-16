@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ok.okhelper.dao.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.ok.okhelper.pojo.po.Permission">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="menu_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="menu_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="permission_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="permission_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="operator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="delete_status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="PermissionMenuMap" type="com.ok.okhelper.pojo.vo.PermissionMenuVo">
+        <result column="menu_code" property="menuCode"></result>
+        <result column="menu_name" property="menuName"></result>
+    </resultMap>
+
+
+    <select id="findAddPermission" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT *
+        from permission
+        WHERE permission.id in
+              (SELECT permission_id
+               FROM role_permission
+               WHERE role_id in
+                     (SELECT role_id
+                      FROM user_role
+                      WHERE user_id = #{userId}))
+        order by permission.menu_code
+    </select>
+
+    <select id="findPermissionMenu" parameterType="java.lang.Long" resultMap="PermissionMenuMap">
+        SELECT distinct
+            menu_code,
+            menu_name
+        from permission
+        WHERE permission.id in
+              (SELECT permission_id
+               FROM role_permission
+               WHERE role_id in
+                     (SELECT role_id
+                      FROM user_role
+                      WHERE user_id = #{userId}))
+              AND menu_code != 'ALL'
+        order by permission.menu_code
+    </select>
+</mapper>
