@@ -11,12 +11,13 @@ import com.orders.pojo.vo.UploadVo;
 import com.orders.service.UploadService;
 import com.orders.shiro.JWTUtil;
 import com.orders.util.COSUtil;
+import com.orders.util.CosProperties;
+import com.orders.util.StringUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ import java.util.Map;
 @RestController
 @Api(tags = "文件上传模块")
 @Slf4j
+@EnableConfigurationProperties(CosProperties.class)
 public class UploadController {
 
     @Autowired
@@ -45,21 +47,8 @@ public class UploadController {
     @Autowired
     private UserMapper userMapper;
 
-    @Value("${cos.server.http.prefix}")
-    private String cosHttpPrefix;
-
-    @Value("${cos.path.img}")
-    private String cosPathImg;
-
-    @Value("${cos.path.avator}")
-    private String cosPathAvator;
-
-    @Value("${cos.path.money-code}")
-    private String cosPathMoneyCode;
-
-    @Value("${cos.path.store-logo}")
-    private String cosPathStoreLogo;
-
+    @Autowired
+    private CosProperties cosProperties;
 
     @PostMapping(value = "/upload/img")
     @ApiOperation(value = "上传图片(包括商品图片、分类图片等等，用户头像请转到头像上传接口)", notes = "此接口只上传图片，无业务逻辑")
@@ -69,11 +58,9 @@ public class UploadController {
             //定义临时文件夹
             String tmp_path = request.getSession().getServletContext().getRealPath("tmp");
 
-            String targetFileName = uploadService.upload(file, tmp_path, cosPathImg);
+            String targetFileName = uploadService.upload(file, tmp_path, cosProperties.getPathImg());
 
-            String url = cosHttpPrefix + cosPathImg + targetFileName;
-
-            UploadVo uploadVo = new UploadVo(targetFileName, url);
+            UploadVo uploadVo = new UploadVo(targetFileName, StringUtils.append(cosProperties.getServerHttpPrefix(), cosProperties.getPathImg(), targetFileName));
 
             return ServerResponse.createBySuccess(uploadVo);
         } else {
@@ -91,12 +78,12 @@ public class UploadController {
             //定义临时文件夹
             String tmp_path = request.getSession().getServletContext().getRealPath("tmp");
 
-            String targetFileName = uploadService.upload(file, tmp_path, cosPathAvator);
-            String url = cosHttpPrefix + cosPathAvator + targetFileName;
+            String targetFileName = uploadService.upload(file, tmp_path, cosProperties.getPathAvator());
+            String url = StringUtils.append(cosProperties.getServerHttpPrefix(), cosProperties.getPathAvator(), targetFileName);
             User dbuser = userMapper.selectByPrimaryKey(JWTUtil.getUserId());
 
             //删除旧头像
-            if (StringUtils.isNotBlank(dbuser.getUserAvatar())) {
+            if (StringUtils.isNotEmpty(dbuser.getUserAvatar())) {
                 COSUtil.deleteFile(dbuser.getUserAvatar());
             }
 
@@ -128,9 +115,9 @@ public class UploadController {
             //定义临时文件夹
             String tmp_path = request.getSession().getServletContext().getRealPath("tmp");
 
-            String targetFileName = uploadService.upload(file, tmp_path, cosPathMoneyCode);
+            String targetFileName = uploadService.upload(file, tmp_path, cosProperties.getPathMoneyCode());
 
-            String url = cosHttpPrefix + cosPathMoneyCode + targetFileName;
+            String url = StringUtils.append(cosProperties.getServerHttpPrefix(), cosProperties.getPathMoneyCode(), targetFileName);
 
             //修改收款码
             Store dbstore = storeMapper.selectByPrimaryKey(JWTUtil.getStoreId());
@@ -165,11 +152,11 @@ public class UploadController {
         if (!file.isEmpty() && file.getContentType().startsWith("image")) {
 
             //定义临时文件夹
-            String tmp_path = request.getSession().getServletContext().getRealPath("tmp");
+            String tmpPath = request.getSession().getServletContext().getRealPath("tmp");
 
-            String targetFileName = uploadService.upload(file, tmp_path, cosPathStoreLogo);
+            String targetFileName = uploadService.upload(file, tmpPath, cosProperties.getPathStoreLogo());
 
-            String url = cosHttpPrefix + cosPathStoreLogo + targetFileName;
+            String url = StringUtils.append(cosProperties.getServerHttpPrefix(), cosProperties.getPathStoreLogo(), targetFileName);
 
             //修改收款码
             Store dbstore = storeMapper.selectByPrimaryKey(JWTUtil.getStoreId());
@@ -178,7 +165,7 @@ public class UploadController {
             }
 
             //删除旧图片
-            if (StringUtils.isNotBlank(dbstore.getStoreLogo())) {
+            if (StringUtils.isNotEmpty(dbstore.getStoreLogo())) {
                 COSUtil.deleteFile(dbstore.getStoreLogo());
             }
 

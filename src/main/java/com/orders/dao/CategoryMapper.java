@@ -4,12 +4,13 @@ import com.orders.pojo.bo.IdAndNameBo;
 import com.orders.pojo.po.Category;
 import com.orders.pojo.vo.CategoryVo;
 import com.orders.util.MyMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Mapper
 public interface CategoryMapper extends MyMapper<Category> {
 	
 	List<CategoryVo>  getCategoryListBySuperId(@Param("superId") Long superId, @Param("storeId") Long storeId);

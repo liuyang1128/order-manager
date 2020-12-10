@@ -4,12 +4,13 @@ import com.orders.pojo.bo.IdAndNameBo;
 import com.orders.pojo.bo.UserBo;
 import com.orders.pojo.po.User;
 import com.orders.util.MyMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Mapper
 public interface UserMapper extends MyMapper<User> {
 
     Long findUserIdByName(String userName);

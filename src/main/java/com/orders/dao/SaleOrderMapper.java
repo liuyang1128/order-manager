@@ -7,13 +7,14 @@ import com.orders.pojo.vo.ProductCountMapVo;
 import com.orders.pojo.vo.SaleOrderVo;
 import com.orders.pojo.vo.SaleTotalVo;
 import com.orders.util.MyMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
-@Repository
+@Mapper
 public interface SaleOrderMapper extends MyMapper<SaleOrder> {
     List<CustomerDebtBo> getCustomerDebtBo(@Param("storeId") Long storeId, @Param("condition") String condition);
 

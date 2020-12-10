@@ -9,6 +9,8 @@ import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.io.File;
 
@@ -17,25 +19,23 @@ import java.io.File;
  */
 
 @Slf4j
+@EnableConfigurationProperties(CosProperties.class)
 public class COSUtil {
 
     private COSClient cosClient;
 
-    private String secretId = PropertiesUtil.getProperty("cos.secretId");
+    @Autowired
+    private CosProperties cosProperties;
 
-    private String secretKey = PropertiesUtil.getProperty("cos.secretKey");
+    private String bucketName = cosProperties.getBucketName();
 
-    private String region = PropertiesUtil.getProperty("cos.region");
-
-    private String bucketName = PropertiesUtil.getProperty("cos.bucketName");
-
-    private String cosServerHttpPrefix = PropertiesUtil.getProperty("cos.server.http.prefix");
+    private String cosServerHttpPrefix = cosProperties.getServerHttpPrefix();
 
     private COSUtil() {
         // 1 初始化用户身份信息(secretId, secretKey)
-        COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
+        COSCredentials cred = new BasicCOSCredentials(cosProperties.getSecretId(), cosProperties.getSecretKey());
         // 2 设置bucket的区域, COS地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
-        ClientConfig clientConfig = new ClientConfig(new Region(region));
+        ClientConfig clientConfig = new ClientConfig(new Region(cosProperties.getRegion()));
         // 3 生成cos客户端
         cosClient = new COSClient(cred, clientConfig);
     }
@@ -76,27 +76,5 @@ public class COSUtil {
         }
 
     }
-
-
-    /**
-     * @Author zc  
-     * @Date 2018/5/8 上午1:31  
-     * @Param []  
-     * @Return void  
-     * @Description:清空整个Bucket
-     */  
-//    public static void flushBucket() {
-//        COSUtil cosUtil = new COSUtil();
-//        try {
-//            DeleteObjectsRequest deleteObjectsRequest=new DeleteObjectsRequest(cosUtil.bucketName);
-//            cosUtil.cosClient.deleteObjects(deleteObjectsRequest);
-//            log.debug("清空Bucket");
-//        } catch (RuntimeException exception) {
-//            log.error(exception.getMessage());
-//        }finally {
-//            cosUtil.cosClient.shutdown();
-//        }
-//
-//    }
 
 }

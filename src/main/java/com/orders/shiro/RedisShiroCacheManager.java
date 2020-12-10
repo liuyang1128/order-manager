@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  * @description:RedisShiroCacheManager
  * @date: 2018/4/15
  */
-@Service
 public class RedisShiroCacheManager implements CacheManager {
 
     @Autowired

@@ -6,13 +6,14 @@ import com.orders.pojo.vo.CategoryVo;
 import com.orders.pojo.vo.ProductStockVo;
 import com.orders.pojo.vo.ProductsVo;
 import com.orders.util.MyMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Repository
+@Mapper
 public interface ProductMapper extends MyMapper<Product> {
     int cutSalesStock(@Param("salesCount") Integer salesCount, @Param("productId") Long productId);
 
